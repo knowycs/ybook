@@ -1,0 +1,966 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth bg-white text-black">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Y Book — Next-Gen Modular Laptop Architecture</title>
+  <meta name="description" content="US Patent Pending # 64/164,532. High-performance modular computer system architecture with top-edge interface and multifunctional accessories">
+  
+  <!-- 1. FAVICON: White letters YB on black background -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23000000'/%3E%3Ctext x='50%25' y='55%25' text-anchor='middle' dominant-baseline='middle' font-family='Inter, sans-serif' font-weight='900' font-size='32' fill='%23FFFFFF'%3EYB%3C/text%3E%3C/svg%3E">
+  <link rel="alternate icon" type="image/svg+xml" href="YB (black).svg">
+  <link rel="alternate icon" type="image/webp" href="YB (black).webp">
+
+  <!-- Google Fonts: Inter (UI/Headers), Montserrat (Body), JetBrains Mono (Telemetry) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+  <!-- Cloudflare Turnstile API -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            montserrat: ['Montserrat', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #FFFFFF;
+      color: #000000;
+      font-family: 'Montserrat', sans-serif;
+      text-rendering: optimizeLegibility;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    /* Innovation cards hover: strictly transform scale(1.03) without layout shifts */
+    .innovation-card {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, border-color 0.3s ease;
+      will-change: transform;
+    }
+    .innovation-card:hover {
+      transform: scale(1.03);
+      z-index: 20;
+    }
+
+    #patentModal {
+      transition: opacity 0.25s ease, visibility 0.25s ease;
+    }
+
+    /* Mobile drawer slide transition */
+    #mobileMenuDrawer {
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  </style>
+</head>
+<body class="selection:bg-zinc-900 selection:text-white">
+
+  <!-- ================= FIXED HEADER NAVIGATION ================= -->
+  <header class="sticky top-0 z-40 w-full bg-white/95 backdrop-blur-md border-b border-zinc-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      
+      <!-- Logo: Hard Reset Button to Top (Strict Camel Case) -->
+      <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="flex items-center gap-3 transition-opacity hover:opacity-80" aria-label="Y Book Hard Reset">
+        <img src="Y Book.svg" alt="Y Book" class="h-8 w-auto object-contain" onerror="this.onerror=null; this.classList.add('hidden'); document.getElementById('logo-fallback').classList.remove('hidden');">
+        <div id="logo-fallback" class="hidden bg-black text-white px-3 py-1 font-sans font-bold tracking-widest text-sm">Y Book</div>
+      </a>
+
+      <!-- Desktop Nav Nodes (Proportional size & increased spacing) -->
+      <nav class="hidden md:flex items-center space-x-12 font-sans text-sm tracking-wider uppercase font-semibold text-zinc-800">
+        <a href="#innovations" class="py-2 border-b-2 border-transparent hover:border-blue-500 transition-colors" data-i18n="nav_innovations">Innovations</a>
+        <a href="#patent" class="py-2 border-b-2 border-transparent hover:border-amber-500 transition-colors" data-i18n="nav_patent">Patent</a>
+        <a href="#value" class="py-2 border-b-2 border-transparent hover:border-emerald-500 transition-colors" data-i18n="nav_value">Value</a>
+        <a href="#partnership" class="py-2 border-b-2 border-transparent hover:border-orange-500 transition-colors" data-i18n="nav_partnership">Partnership</a>
+      </nav>
+
+      <!-- Desktop Language Selector & Contact Action Button -->
+      <div class="hidden md:flex items-center gap-4">
+        <!-- Language Switcher (Montserrat, Centered) -->
+        <div class="relative inline-block text-center">
+          <select id="langSwitcher" onchange="changeLanguage(this.value)" class="appearance-none bg-zinc-100 hover:bg-zinc-200 border border-zinc-300 font-montserrat text-xs uppercase px-4 py-2.5 pr-8 rounded-full cursor-pointer focus:outline-none focus:ring-1 focus:ring-black transition-colors text-center" style="text-align-last: center;">
+            <option value="en">EN</option>
+            <option value="zh">中文</option>
+            <option value="ru">РУС</option>
+          </select>
+          <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-zinc-600">
+            <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+          </div>
+        </div>
+
+        <!-- Header Action Button (Contact) -->
+        <a href="#partnership" class="rounded-full px-5 py-2.5 text-sm font-sans uppercase font-bold tracking-wider text-black bg-blue-600/20 hover:bg-blue-600/35 border border-blue-600/30 transition-colors duration-200" data-i18n="nav_contact">
+          Contact
+        </a>
+      </div>
+
+      <!-- 6.1. Mobile Menu Burger Trigger -->
+      <div class="flex items-center md:hidden">
+        <button id="openMobileMenuBtn" class="p-2 text-black hover:text-zinc-600 focus:outline-none" aria-label="Open Mobile Menu">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <line x1="4" x2="20" y1="12" y2="12"></line>
+            <line x1="4" x2="20" y1="6" y2="6"></line>
+            <line x1="4" x2="20" y1="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ================= 6.2 - 6.4. MOBILE NAVIGATION DRAWER & OVERLAY ================= -->
+  <div id="mobileMenuOverlay" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
+    <div id="mobileMenuDrawer" class="fixed top-0 right-0 w-full sm:max-w-xs h-full bg-white text-black shadow-2xl p-6 flex flex-col justify-between transform translate-x-full transition-transform duration-300 ease-in-out">
+      
+      <!-- Top Row: Logo + Close "X" Button -->
+      <div class="flex items-center justify-between pb-4 border-b border-zinc-200">
+        <span class="font-sans font-bold text-lg tracking-wide">Y Book</span>
+        <button id="closeMobileMenuBtn" class="p-2 text-zinc-500 hover:text-black focus:outline-none" aria-label="Close menu">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- 6.3.1. Nav Nodes Vertical Stack -->
+      <nav class="flex flex-col space-y-6 my-auto font-sans text-lg uppercase font-bold tracking-wider py-8">
+        <a href="#innovations" class="mobile-nav-link hover:text-blue-600 transition-colors" data-i18n="nav_innovations">Innovations</a>
+        <a href="#patent" class="mobile-nav-link hover:text-amber-600 transition-colors" data-i18n="nav_patent">Patent</a>
+        <a href="#value" class="mobile-nav-link hover:text-emerald-600 transition-colors" data-i18n="nav_value">Value</a>
+        <a href="#partnership" class="mobile-nav-link hover:text-orange-600 transition-colors" data-i18n="nav_partnership">Partnership</a>
+      </nav>
+
+      <!-- 6.3.2 & 6.3.3. Mobile Controls: Language & Contact CTA -->
+      <div class="border-t border-zinc-200 pt-6 space-y-5">
+        <div class="flex items-center justify-between">
+          <span class="font-mono text-xs uppercase text-zinc-500 font-semibold">Language</span>
+          <div class="relative">
+            <select id="mobileLangSwitcher" onchange="changeLanguage(this.value)" class="appearance-none bg-zinc-100 hover:bg-zinc-200 border border-zinc-300 font-montserrat text-xs uppercase px-4 py-2 pr-8 rounded-full cursor-pointer focus:outline-none focus:ring-1 focus:ring-black transition-colors text-center" style="text-align-last: center;">
+              <option value="en">EN</option>
+              <option value="zh">中文</option>
+              <option value="ru">РУС</option>
+            </select>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-zinc-600">
+              <svg class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"></path></svg>
+            </div>
+          </div>
+        </div>
+
+        <a href="#partnership" class="mobile-nav-link block w-full text-center rounded-full py-3.5 text-sm font-sans uppercase font-bold tracking-wider text-black bg-blue-600/20 hover:bg-blue-600/35 border border-blue-600/30 transition-colors duration-200" data-i18n="nav_contact">
+          Contact
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <main>
+    <!-- ================= HERO SECTION ================= -->
+    <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-24 lg:pt-28 lg:pb-32">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+        
+        <div class="lg:col-span-7 space-y-6">
+          <h1 class="font-sans font-black text-4xl sm:text-5xl lg:text-6xl uppercase tracking-tight text-black leading-none" data-i18n="hero_title">
+            New generation laptops and peripherals
+          </h1>
+
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-950 font-mono text-xs font-medium tracking-wide">
+            <span class="w-2 h-2 rounded-full bg-emerald-600 animate-pulse"></span>
+            <span data-i18n="hero_badge">US Patent Pending # 64/164,532</span>
+          </div>
+
+          <p class="font-montserrat text-lg sm:text-xl text-zinc-700 leading-relaxed max-w-2xl" data-i18n="hero_desc">
+            Y Book is the next step in laptop evolution, putting functionality, privacy, flexibility, and ergonomics at the very forefront
+          </p>
+
+          <div class="pt-4">
+            <a href="#partnership" class="inline-flex items-center gap-3 rounded-full px-7 py-3.5 text-sm font-sans uppercase font-bold tracking-wider text-black bg-blue-600/20 hover:bg-blue-600/35 border border-blue-600/30 transition-colors duration-200">
+              <span data-i18n="hero_cta">Get the Deck</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path></svg>
+            </a>
+          </div>
+        </div>
+
+        <div class="lg:col-span-5 flex justify-center">
+          <div class="relative w-full max-w-lg lg:max-w-none">
+            <div class="absolute -inset-1 rounded-2xl bg-gradient-to-r from-zinc-200 to-zinc-100 opacity-50 blur-lg"></div>
+            <img src="laptop.avif" alt="Y Book Modular Computing System" class="relative w-full h-auto object-cover rounded-2xl border border-zinc-200 shadow-xl">
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= SECTION: INNOVATIONS ================= -->
+    <section id="innovations" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-zinc-200">
+      
+      <!-- Section Header (Underline strictly matching text width) -->
+      <div class="mb-14 flex flex-col items-start">
+        <div class="inline-flex flex-col">
+          <h2 class="font-sans font-black text-2xl sm:text-3xl uppercase tracking-wider text-black" data-i18n="sec_innovations">
+            Innovations
+          </h2>
+          <div class="h-1 w-full bg-blue-500 mt-2"></div>
+        </div>
+      </div>
+
+      <!-- 4 Vertical Cards Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 p-1">
+
+        <!-- Card 1 -->
+        <div class="innovation-card flex flex-col justify-between p-6 rounded-2xl border border-zinc-200 bg-white hover:bg-blue-600/10 hover:border-blue-600/20 shadow-sm">
+          <div>
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-blue-600/10 text-blue-900 mb-6">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <path d="M12 10a2 2 0 0 0-2 2c0 1.02-.1 2.51-.26 4"/><path d="M14 13.12c0 2.38 0 6.38-1 8.88"/><path d="M17.29 21.02c.12-.6.43-2.3.5-3.02"/><path d="M2 12a10 10 0 0 1 18-6"/><path d="M2 16h.01"/><path d="M21.8 16c.2-2 .131-5.354 0-6"/><path d="M5 19.5C5.5 18 6 15 6 12c0-.71.2-5.45 6-7 3.09-.79 6.72 1.41 7.6 4.08"/><path d="M8.65 22c.21-.66.45-1.32.57-2"/><path d="M9 6.8a6 6 0 0 1 9 5.2v2"/>
+              </svg>
+            </div>
+
+            <h3 class="font-sans font-bold text-lg uppercase tracking-wide text-black mb-4" data-i18n="c1_title">Top Edge Biometrics</h3>
+
+            <div class="mb-5">
+              <span class="font-mono text-xs uppercase tracking-wider font-semibold text-zinc-500" data-i18n="label_problem">User Problem</span>
+              <p class="font-montserrat text-base text-zinc-800 mt-1 leading-snug" data-i18n="c1_problem">
+                Traditional fingerprint scanners placed on the keyboard deck require a separate action after opening the laptop, slowing down system login
+              </p>
+            </div>
+
+            <div>
+              <span class="font-mono text-xs uppercase tracking-wider font-semibold text-zinc-500" data-i18n="label_solution">Solution</span>
+              <ul class="font-montserrat text-base text-zinc-700 mt-2 space-y-2 leading-relaxed">
+                <li data-i18n="c1_sol1"><strong>Seamless UX:</strong> Fingerprint scanner positioned on the top edge of the display lid</li>
+                <li data-i18n="c1_sol2"><strong>Automatic Authentication:</strong> Unlock occurs naturally the moment the user lifts the lid with their finger — by the time the display opens, the OS has fully authenticated the user</li>
+                <li data-i18n="c1_sol3"><strong>Smart Battery Protection:</strong> Lid angle sensor de-energizes the scanner when closed (0°), eliminating false triggers and battery drain during transport in a bag</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="innovation-card flex flex-col justify-between p-6 rounded-2xl border border-zinc-200 bg-white hover:bg-amber-600/10 hover:border-amber-600/20 shadow-sm">
+          <div>
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-amber-600/10 text-amber-900 mb-6">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" x2="22" y1="2" y2="22"/>
+              </svg>
+            </div>
+
+            <h3 class="font-sans font-bold text-lg uppercase tracking-wide text-black mb-4" data-i18n="c2_title">Display & Webcam Privacy</h3>
+
+            <div class="mb-5">
+              <span class="font-mono text-xs uppercase tracking-wider font-semibold text-zinc-500" data-i18n="label_problem">User Problem</span>
+              <p class="font-montserrat text-base text-zinc-800 mt-1 leading-snug" data-i18n="c2_problem">
+                Ultra-thin lids limit camera optics, built-in lenses add ugly notches or thick bezels, mechanical shutters scratch screens, and loose magnetic cams easily get lost
+              </p>
+            </div>
+
+            <div>
+              <span class="font-mono text-xs uppercase tracking-wider font-semibold text-zinc-500" data-i18n="label_solution">Solution</span>
+              <ul class="font-montserrat text-base text-zinc-700 mt-2 space-y-2 leading-relaxed">
+                <li data-i18n="c2_sol1"><strong>Uncompromised Optics:</strong> Moving camera to dedicated module removes z-height limits for superior sensors</li>
+                <li data-i18n="c2_sol2"><strong>Clean Display:</strong> Ultra-thin symmetrical bezels on all 4 sides with zero display cutouts</li>
+                <li data-i18n="c2_sol3"><strong>Concealed Storage Niche:</strong> Push-Push internal chassis cavity for 100% hardware privacy and loss prevention</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="innovation-card flex flex-col justify-between p-6 rounded-2xl border border-zinc-200 bg-white hover:bg-emerald-600/10 hover:border-emerald-600/20 shadow-sm">
+          <div>
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-emerald-600/10 text-emerald-900 mb-6">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 3v2m6-2v2M9 19v2m6-2v2M3 9h2m-2 6h2m14-6h2m-2 6h2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path></svg>
+            </div>
+
+            <h3 class="font-sans font-bold text-lg uppercase tracking-wide text-black mb-4" data-i18n="c3_title">Space Optimization</h3>
+
+            <div class="mb-5">
+              <span class="font-mono text-xs uppercase tracking-wider font-semibold text-zinc-500" data-i18n="label_problem">User Problem</span>
+              <p class="font-montserrat text-base text-zinc-800 mt-1 leading-snug" data-i18n="c3_problem">
+                Built-in speakers and acoustic chambers occupy valuable internal space inside the laptop, while delivering average audio quality due to strict volume limitations
+              </p>
+            </div>
+
+            <div>
+              <span class="font-mono text-xs uppercase tracking-wider font-semibold text-zinc-500" data-i18n="label_solution">Solution</span>
+              <ul class="font-montserrat text-base text-zinc-700 mt-2 space-y-2 leading-relaxed">
+                <li data-i18n="c3_sol1"><strong>Freed Internal Volume:</strong> Eliminating internal speakers reclaims critical chassis space</li>
+                <li data-i18n="c3_sol2"><strong>Power Block:</strong> +20-30% battery capacity increase</li>
+                <li data-i18n="c3_sol3"><strong>Telecom & Cost:</strong> Native 5G/eSIM integration and significantly reduced manufacturing weight</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="innovation-card flex flex-col justify-between p-6 rounded-2xl border border-zinc-200 bg-white hover:bg-orange-600/10 hover:border-orange-600/20 shadow-sm">
+          <div>
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center bg-orange-600/10 text-orange-900 mb-6">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"></path></svg>
+            </div>
+
+            <h3 class="font-sans font-bold text-lg uppercase tracking-wide text-black mb-4" data-i18n="c4_title">Magnetic Prism Module</h3>
+
+            <div class="mb-5">
+              <span class="font-mono text-xs uppercase tracking-wider font-semibold text-zinc-500" data-i18n="label_problem">User Problem</span>
+              <p class="font-montserrat text-base text-zinc-800 mt-1 leading-snug" data-i18n="c4_problem">
+                Flat keyboards cause wrist fatigue, while suffocated bottom vents trigger aggressive CPU thermal throttling and deafening fan noise
+              </p>
+            </div>
+
+            <div>
+              <span class="font-mono text-xs uppercase tracking-wider font-semibold text-zinc-500" data-i18n="label_solution">Solution</span>
+              <ul class="font-montserrat text-base text-zinc-700 mt-2 space-y-2 leading-relaxed">
+                <li data-i18n="c4_sol1"><strong>Ergonomics & Airflow:</strong> Elevates chassis for open-channel ventilation and spine relief</li>
+                <li data-i18n="c4_sol2"><strong>High-End Audio:</strong> Stereo sound with subwoofer, detachable into 2 wireless satellites</li>
+                <li data-i18n="c4_sol3"><strong>Power & Status:</strong> Integrated bi-directional power bank and optional rear telemetry display</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= SECTION: PATENT & IP ================= -->
+    <section id="patent" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-zinc-200">
+      
+      <div class="mb-14 flex flex-col items-start">
+        <div class="inline-flex flex-col">
+          <h2 class="font-sans font-black text-2xl sm:text-3xl uppercase tracking-wider text-black" data-i18n="sec_patent">
+            Patent
+          </h2>
+          <div class="h-1 w-full bg-amber-500 mt-2"></div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+        
+        <div class="lg:col-span-7 space-y-8">
+          
+          <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 p-6 rounded-2xl border border-zinc-200 bg-zinc-50/50">
+            <img src="Yury Shynkevich.avif" alt="Yury Shynkevich" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover grayscale border-2 border-zinc-300 shadow-sm flex-shrink-0">
+            <div class="space-y-2 text-center sm:text-left">
+              <h3 class="font-sans font-bold text-xl uppercase tracking-wide text-black">Yury Shynkevich</h3>
+              <p class="font-montserrat text-sm text-zinc-600 leading-snug" data-i18n="inventor_title">
+                Independent Inventor. Professional Product Owner & IT Project Manager
+              </p>
+              
+              <div class="flex items-center justify-center sm:justify-start gap-4 pt-2">
+                <a href="https://www.linkedin.com/in/yury-shynkevich/" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full flex items-center justify-center bg-blue-600/20 hover:bg-blue-600/35 text-black transition-colors" aria-label="LinkedIn">
+                  <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                </a>
+                <a href="https://t.me/knowycs" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full flex items-center justify-center bg-blue-600/20 hover:bg-blue-600/35 text-black transition-colors" aria-label="Telegram">
+                  <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.121l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.197 1.006.128.832.942z"/></svg>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div class="overflow-hidden border border-zinc-200 rounded-2xl bg-white shadow-sm font-mono text-xs">
+            <div class="divide-y divide-zinc-200">
+              <div class="grid grid-cols-1 sm:grid-cols-3 p-4 bg-zinc-50">
+                <span class="text-zinc-500 uppercase font-semibold" data-i18n="table_inv">Inventor Name</span>
+                <span class="sm:col-span-2 text-black font-medium mt-1 sm:mt-0">Yury Shynkevich</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 p-4">
+                <span class="text-zinc-500 uppercase font-semibold" data-i18n="table_jur">Jurisdiction</span>
+                <span class="sm:col-span-2 text-black font-medium mt-1 sm:mt-0">United States (USPTO)</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 p-4 bg-zinc-50">
+                <span class="text-zinc-500 uppercase font-semibold" data-i18n="table_app_id">Application ID</span>
+                <span class="sm:col-span-2 text-black font-semibold mt-1 sm:mt-0 text-emerald-700">US PPA # 64/164,532</span>
+              </div>
+              <div class="grid grid-cols-1 sm:grid-cols-3 p-4">
+                <span class="text-zinc-500 uppercase font-semibold" data-i18n="table_scope">Application Scope</span>
+                <span class="sm:col-span-2 text-black font-medium mt-1 sm:mt-0" data-i18n="table_scope_val">20 Structural System Claims (4 Independent / 16 Dependent Claims)</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="lg:col-span-5 flex flex-col items-center">
+          <div class="relative group cursor-pointer" onclick="openPatentModal()">
+            <img src="Ассет 417-1.avif" alt="USPTO Electronic Acknowledgement Receipt" class="w-full max-w-sm rounded-xl border border-zinc-300 shadow-md transition-transform duration-200 group-hover:scale-[1.01]">
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center">
+              <span class="rounded-full px-4 py-2 bg-white text-black font-sans font-bold text-xs uppercase tracking-wider" data-i18n="click_to_zoom">Click to Inspect</span>
+            </div>
+          </div>
+          <span class="font-mono text-xs text-zinc-500 mt-3" data-i18n="patent_tap_hint">Click receipt to view full USPTO acknowledgement in high resolution</span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= SECTION: STRATEGIC VALUE ================= -->
+    <section id="value" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-zinc-200">
+      
+      <div class="mb-14 flex flex-col items-start">
+        <div class="inline-flex flex-col">
+          <h2 class="font-sans font-black text-2xl sm:text-3xl uppercase tracking-wider text-black" data-i18n="sec_value">
+            Value
+          </h2>
+          <div class="h-1 w-full bg-emerald-500 mt-2"></div>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        
+        <!-- Pillar 1 -->
+        <div class="p-8 rounded-2xl border border-zinc-200 bg-white shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-emerald-600/10 text-emerald-900 mb-6">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/>
+              </svg>
+            </div>
+            <h3 class="font-sans font-bold text-xl uppercase tracking-wide text-black mb-4" data-i18n="val_block1_title">Strategic Market Alignment</h3>
+            
+            <div class="space-y-4 font-montserrat text-base text-zinc-700 leading-relaxed">
+              <p data-i18n="val_block1_p1">
+                Rather than following trends, you set them. Implementing these innovations effectively distinguishes your company from competitors, while the technical solutions remain intuitive for users and easy to adopt
+              </p>
+              <p data-i18n="val_block1_p2">
+                Flexibility in adapting devices to user needs, without the need to develop new product lines. The ability to reach different user segments by modifying a laptop's base configuration
+              </p>
+            </div>
+          </div>
+          <div class="mt-8 pt-4 border-t border-zinc-100 flex items-center gap-2 font-mono text-xs text-zinc-500">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            <span data-i18n="val_sub_tier">Tier-1 OEM / ODM Direct Architecture</span>
+          </div>
+        </div>
+
+        <!-- Pillar 2 -->
+        <div class="p-8 rounded-2xl border border-zinc-200 bg-white shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="w-12 h-12 rounded-full flex items-center justify-center bg-emerald-600/10 text-emerald-900 mb-6">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                <rect width="20" height="12" x="2" y="6" rx="2"/><circle cx="12" cy="12" r="2"/><path d="M6 12h.01M18 12h.01"/>
+              </svg>
+            </div>
+            <h3 class="font-sans font-bold text-xl uppercase tracking-wide text-black mb-4" data-i18n="val_block2_title">High-Margin Revenue Streams</h3>
+            
+            <p class="font-montserrat text-base text-zinc-800 font-semibold mb-4" data-i18n="val_block2_lead">
+              Monopolized Accessory Market: Creation of locked-in, high-margin, proprietary hardware categories with high repeat-purchase rates:
+            </p>
+
+            <ul class="space-y-4 font-montserrat text-base text-zinc-700 leading-relaxed">
+              <li class="flex items-start gap-3">
+                <span class="font-mono text-xs text-emerald-600 font-bold mt-1">—</span>
+                <span data-i18n="val_block2_item1"><strong>Modular Camera Capsules:</strong> High-yield optical upgrades without redesigning the main laptop chassis</span>
+              </li>
+              <li class="flex items-start gap-3">
+                <span class="font-mono text-xs text-emerald-600 font-bold mt-1">—</span>
+                <span data-i18n="val_block2_item2"><strong>Audio Prisms:</strong> A top-tier speaker system that requires no compromises, while simultaneously creating new, highly sought-after use cases</span>
+              </li>
+            </ul>
+          </div>
+          <div class="mt-8 pt-4 border-t border-zinc-100 flex items-center gap-2 font-mono text-xs text-zinc-500">
+            <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+            <span data-i18n="val_sub_rev">Proprietary Hardware Ecosystem</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= SECTION: B2B PARTNERSHIP TERMINAL ================= -->
+    <section id="partnership" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 border-t border-zinc-200">
+      
+      <div class="mb-14 flex flex-col items-start">
+        <div class="inline-flex flex-col">
+          <h2 class="font-sans font-black text-2xl sm:text-3xl uppercase tracking-wider text-black" data-i18n="sec_partnership">
+            Partnership
+          </h2>
+          <div class="h-1 w-full bg-orange-500 mt-2"></div>
+        </div>
+      </div>
+
+      <div class="max-w-2xl mx-auto">
+        <!-- 2. Cleaned header: Subtitle deleted completely across all languages -->
+        <div class="text-center mb-8">
+          <p class="font-sans font-bold text-lg uppercase tracking-wide text-black" data-i18n="part_sub">Establish Strategic Collaboration</p>
+        </div>
+
+        <div id="partnership-form-wrapper" class="p-8 sm:p-10 rounded-3xl border border-zinc-200 bg-zinc-50/50 shadow-sm transition-all duration-300">
+          
+          <form id="b2bForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="space-y-5">
+            <input type="hidden" name="_to" value="shynkevich.yury@gmail.com">
+            <input type="hidden" name="_subject" value="New B2B Licensing Inquiry — Y Book Patent">
+
+            <div>
+              <label class="block font-montserrat text-sm font-semibold text-zinc-700 mb-1.5" data-i18n="f_company">Company Name *</label>
+              <input type="text" name="company" required placeholder="e.g. Acme Hardware Corp" class="w-full px-4 py-3 rounded-xl border border-zinc-300 bg-white text-black font-mono text-sm focus:outline-none focus:ring-2 focus:ring-black transition-shadow">
+            </div>
+
+            <div>
+              <label class="block font-montserrat text-sm font-semibold text-zinc-700 mb-1.5" data-i18n="f_person">Contact Person Name *</label>
+              <input type="text" name="name" required placeholder="e.g. Alex Henderson" class="w-full px-4 py-3 rounded-xl border border-zinc-300 bg-white text-black font-mono text-sm focus:outline-none focus:ring-2 focus:ring-black transition-shadow">
+            </div>
+
+            <div>
+              <label class="block font-montserrat text-sm font-semibold text-zinc-700 mb-1.5" data-i18n="f_email">Email Address *</label>
+              <input type="email" name="email" required pattern="^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$" placeholder="alex@company.com" class="w-full px-4 py-3 rounded-xl border border-zinc-300 bg-white text-black font-mono text-sm focus:outline-none focus:ring-2 focus:ring-black transition-shadow">
+            </div>
+
+            <div>
+              <label class="block font-montserrat text-sm font-semibold text-zinc-700 mb-1.5" data-i18n="f_phone">Direct Contact Number</label>
+              <input type="tel" name="phone" pattern="^\+[0-9]{1,3}[0-9]{7,12}$" title="Format: +[country code][number], 7 to 12 digits" placeholder="+12345678900" class="w-full px-4 py-3 rounded-xl border border-zinc-300 bg-white text-black font-mono text-sm focus:outline-none focus:ring-2 focus:ring-black transition-shadow">
+            </div>
+
+            <div class="pt-2 flex justify-center">
+              <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-theme="light"></div>
+            </div>
+
+            <div class="pt-2">
+              <button type="submit" id="submitBtn" disabled class="w-full rounded-full py-3.5 text-sm font-sans uppercase font-bold tracking-wider text-black bg-blue-600/20 hover:bg-blue-600/35 border border-blue-600/30 transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer" data-i18n="btn_connect">
+                Connect
+              </button>
+            </div>
+
+            <div class="pt-2 flex items-start gap-3">
+              <input type="checkbox" id="privacyConsent" class="mt-[3px] w-5 h-5 rounded border-zinc-300 text-black focus:ring-black cursor-pointer">
+              <label for="privacyConsent" class="font-montserrat text-sm text-zinc-700 cursor-pointer select-none leading-relaxed" id="privacyLabel">
+                I agree to the <a href="Privacy_Policy.pdf" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-black">Privacy Policy</a> and consent to the processing of my data
+              </label>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= 4 & 5. UNIFIED INVERTED BLACK FOOTER (ONE HORIZONTAL LINE) ================= -->
+  <footer class="w-full bg-black text-white py-8 border-t border-zinc-900">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+        
+        <!-- Left: Logo (Camel Case) -->
+        <div class="flex items-center">
+          <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="flex items-center gap-3 transition-opacity hover:opacity-80" aria-label="Y Book Reset">
+            <img src="Y Book.svg" alt="Y Book" class="h-7 w-auto object-contain brightness-0 invert" onerror="this.onerror=null; this.classList.add('hidden'); document.getElementById('footer-logo-fallback').classList.remove('hidden');">
+            <div id="footer-logo-fallback" class="hidden text-white font-sans font-bold tracking-widest text-sm">Y Book</div>
+          </a>
+        </div>
+
+        <!-- Center: Navigation, Copyright, Privacy -->
+        <div class="flex flex-col items-center gap-2 text-center">
+          <nav class="flex flex-wrap justify-center items-center gap-x-8 gap-y-2 font-sans text-sm tracking-wider uppercase font-semibold text-white/90">
+            <a href="#innovations" class="hover:text-white transition-colors" data-i18n="nav_innovations">Innovations</a>
+            <a href="#patent" class="hover:text-white transition-colors" data-i18n="nav_patent">Patent</a>
+            <a href="#value" class="hover:text-white transition-colors" data-i18n="nav_value">Value</a>
+            <a href="#partnership" class="hover:text-white transition-colors" data-i18n="nav_partnership">Partnership</a>
+          </nav>
+          <div class="font-mono text-xs text-white/60">
+            <span id="footerCopyright">© 2026 Yury Shynkevich. All rights reserved</span>
+          </div>
+          <div>
+            <a href="Privacy_Policy.pdf" target="_blank" rel="noopener noreferrer" class="font-mono text-xs text-white/70 hover:text-white underline underline-offset-4 transition-colors" data-i18n="link_privacy">
+              Privacy Policy
+            </a>
+          </div>
+        </div>
+
+        <!-- Right: Social Gateways -->
+        <div class="flex items-center gap-3">
+          <a href="https://www.linkedin.com/in/yury-shynkevich/" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 hover:bg-white hover:text-black text-white transition-colors" aria-label="LinkedIn">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+          </a>
+          <a href="https://t.me/knowycs" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 hover:bg-white hover:text-black text-white transition-colors" aria-label="Telegram">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.121l-6.871 4.326-2.962-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.197 1.006.128.832.942z"/></svg>
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= USPTO MODAL ================= -->
+  <div id="patentModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm opacity-0 pointer-events-none" onclick="handleModalBackdropClick(event)">
+    <div class="relative max-w-4xl w-full max-h-[92vh] flex flex-col items-center">
+      <button onclick="closePatentModal()" class="absolute -top-12 right-0 p-2 text-white/80 hover:text-white focus:outline-none" aria-label="Close modal">
+        <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+      <img src="Ассет 417-1.avif" alt="USPTO Electronic Acknowledgement Receipt Full" class="w-auto max-h-[85vh] rounded-lg shadow-2xl object-contain bg-white">
+    </div>
+  </div>
+
+  <!-- ================= SCRIPTS: I18N, VALIDATION, MODAL, MOBILE MENU ================= -->
+  <script>
+    // RULE: NO PERIODS AT THE END OF LAST SENTENCES IN ANY BLOCK
+    const i18nData = {
+      en: {
+        nav_innovations: "Innovations",
+        nav_patent: "Patent",
+        nav_value: "Value",
+        nav_partnership: "Partnership",
+        nav_contact: "Contact",
+        hero_title: "New generation laptops and peripherals",
+        hero_badge: "US Patent Pending # 64/164,532",
+        hero_desc: "Y Book is the next step in laptop evolution, putting functionality, privacy, flexibility, and ergonomics at the very forefront",
+        hero_cta: "Get the Deck",
+        sec_innovations: "Innovations",
+        c1_title: "Top Edge Biometrics",
+        c1_problem: "Traditional fingerprint scanners placed on the keyboard deck require a separate action after opening the laptop, slowing down system login",
+        c1_sol1: "<strong>Seamless UX:</strong> Fingerprint scanner positioned on the top edge of the display lid",
+        c1_sol2: "<strong>Automatic Authentication:</strong> Unlock occurs naturally the moment the user lifts the lid with their finger — by the time the display opens, the OS has fully authenticated the user",
+        c1_sol3: "<strong>Smart Battery Protection:</strong> Lid angle sensor de-energizes the scanner when closed (0°), eliminating false triggers and battery drain during transport in a bag",
+        c2_title: "Display & Webcam Privacy",
+        c2_problem: "Ultra-thin lids limit camera optics, built-in lenses add ugly notches or thick bezels, mechanical shutters scratch screens, and loose magnetic cams easily get lost",
+        c2_sol1: "<strong>Uncompromised Optics:</strong> Moving camera to dedicated module removes z-height limits for superior sensors",
+        c2_sol2: "<strong>Clean Display:</strong> Ultra-thin symmetrical bezels on all 4 sides with zero display cutouts",
+        c2_sol3: "<strong>Concealed Storage Niche:</strong> Push-Push internal chassis cavity for 100% hardware privacy and loss prevention",
+        c3_title: "Space Optimization",
+        c3_problem: "Built-in speakers and acoustic chambers occupy valuable internal space inside the laptop, while delivering average audio quality due to strict volume limitations",
+        c3_sol1: "<strong>Freed Internal Volume:</strong> Eliminating internal speakers reclaims critical chassis space",
+        c3_sol2: "<strong>Power Block:</strong> +20-30% battery capacity increase",
+        c3_sol3: "<strong>Telecom & Cost:</strong> Native 5G/eSIM integration and significantly reduced manufacturing weight",
+        c4_title: "Magnetic Prism Module",
+        c4_problem: "Flat keyboards cause wrist fatigue, while suffocated bottom vents trigger aggressive CPU thermal throttling and deafening fan noise",
+        c4_sol1: "<strong>Ergonomics & Airflow:</strong> Elevates chassis for open-channel ventilation and spine relief",
+        c4_sol2: "<strong>High-End Audio:</strong> Stereo sound with subwoofer, detachable into 2 wireless satellites",
+        c4_sol3: "<strong>Power & Status:</strong> Integrated bi-directional power bank and optional rear telemetry display",
+        label_problem: "User Problem",
+        label_solution: "Solution",
+        sec_patent: "Patent",
+        inventor_title: "Independent Inventor. Professional Product Owner & IT Project Manager",
+        table_inv: "Inventor Name",
+        table_jur: "Jurisdiction",
+        table_app_id: "Application ID",
+        table_scope: "Application Scope",
+        table_scope_val: "20 Structural System Claims (4 Independent / 16 Dependent Claims)",
+        click_to_zoom: "Click to Inspect",
+        patent_tap_hint: "Click receipt to view full USPTO acknowledgement in high resolution",
+        sec_value: "Value",
+        val_block1_title: "Strategic Market Alignment",
+        val_block1_p1: "Rather than following trends, you set them. Implementing these innovations effectively distinguishes your company from competitors, while the technical solutions remain intuitive for users and easy to adopt",
+        val_block1_p2: "Flexibility in adapting devices to user needs, without the need to develop new product lines. The ability to reach different user segments by modifying a laptop's base configuration",
+        val_sub_tier: "Tier-1 OEM / ODM Direct Architecture",
+        val_block2_title: "High-Margin Revenue Streams",
+        val_block2_lead: "Monopolized Accessory Market: Creation of locked-in, high-margin, proprietary hardware categories with high repeat-purchase rates:",
+        val_block2_item1: "<strong>Modular Camera Capsules:</strong> High-yield optical upgrades without redesigning the main laptop chassis",
+        val_block2_item2: "<strong>Audio Prisms:</strong> A top-tier speaker system that requires no compromises, while simultaneously creating new, highly sought-after use cases",
+        val_sub_rev: "Proprietary Hardware Ecosystem",
+        sec_partnership: "Partnership",
+        part_sub: "Establish Strategic Collaboration",
+        f_company: "Company Name *",
+        f_person: "Contact Person Name *",
+        f_email: "Email Address *",
+        f_phone: "Direct Contact Number",
+        btn_connect: "Connect",
+        privacy_disclaimer: 'I agree to the <a href="Privacy_Policy.pdf" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-black">Privacy Policy</a> and consent to the processing of my data',
+        link_privacy: "Privacy Policy",
+        copyright: "© {year} Yury Shynkevich. All rights reserved",
+        success_msg: "Sent. We will get back to you shortly"
+      },
+      zh: {
+        nav_innovations: "创新技术",
+        nav_patent: "专利信息",
+        nav_value: "商业价值",
+        nav_partnership: "商务合作",
+        nav_contact: "联系我们",
+        hero_title: "新一代笔记本电脑与外设生态",
+        hero_badge: "美国专利申请中 # 64/164,532",
+        hero_desc: "Y Book 是笔记本电脑进化的关键一步，将功能性、隐私安全、扩展灵活性以及人体工程学置于核心",
+        hero_cta: "获取方案",
+        sec_innovations: "创新技术",
+        c1_title: "顶缘生物识别",
+        c1_problem: "置于键盘面的传统指纹识别器需要在打开笔记本后执行额外操作，拖慢系统登录流程",
+        c1_sol1: "<strong>无缝体验：</strong>指纹识别器置于显示屏顶缘",
+        c1_sol2: "<strong>自动身份验证：</strong>手指抬起屏幕边缘时即完成解锁——在屏幕完全打开时系统已完成验证",
+        c1_sol3: "<strong>智能省电保护：</strong>开合角度传感器在闭合（0°）时完全切断扫描器电源，杜绝误触和背包携带时的电量损耗",
+        c2_title: "屏幕与摄像头隐私",
+        c2_problem: "超薄屏幕限制传感器尺寸，集成镜头导致厚边框或刘海，机械遮罩刮伤屏幕，而外置磁吸摄像头极易遗失",
+        c2_sol1: "<strong>极致光学：</strong>将摄像头移至专用独立模块，摆脱机身厚度约束",
+        c2_sol2: "<strong>沉浸全面屏：</strong>四边等宽对称极窄边框，屏幕无任何打孔或凹槽",
+        c2_sol3: "<strong>机身隐藏式收纳仓：</strong>机身内置 Push-Push 弹压收纳舱，实现 100% 物理硬件级隐私隔离",
+        c3_title: "内部空间优化",
+        c3_problem: "内置扬声器与声学腔体占据了笔记本机身内宝贵的空间，却因体积受限只能提供平庸音质",
+        c3_sol1: "<strong>释放机身内部空间：</strong>取消机身内置喇叭，彻底释放两侧关键结构体积",
+        c3_sol2: "<strong>续航扩充：</strong>增设额外电池组（延长 20-30% 续航时间）",
+        c3_sol3: "<strong>通信与成本：</strong>原生 5G / eSIM 优化布局，显著降低整机制造重量",
+        c4_title: "外置磁吸棱镜模块",
+        c4_problem: "平置键盘引发手腕劳损，机身底部进风间隙不足导致 CPU 严重过热降频与风扇呼啸",
+        c4_sol1: "<strong>人体工学与散热：</strong>抬高机身形成通畅风道，同时提升视线高度减轻颈椎压力",
+        c4_sol2: "<strong>发烧级声学：</strong>集成低音炮的全频立体声音响（可拆解为 2 个无线卫星音箱）",
+        c4_sol3: "<strong>移动能源与交互：</strong>内置双向快充电源，背部可选配辅助通知副屏",
+        label_problem: "用户痛点",
+        label_solution: "解决方案",
+        sec_patent: "专利信息",
+        inventor_title: "独立发明人。专业产品负责人兼 IT 项目经理",
+        table_inv: "发明人",
+        table_jur: "司法管辖区",
+        table_app_id: "申请编号",
+        table_scope: "保护范围",
+        table_scope_val: "20 项结构系统权利要求（4 项独立 / 16 项从属）",
+        click_to_zoom: "点击放大审查",
+        patent_tap_hint: "点击回执文件查看 USPTO 官方高分辨率回执",
+        sec_value: "商业价值",
+        val_block1_title: "战略市场定位",
+        val_block1_p1: "无需跟随趋势，由您引领未来。应用这些创新技术将使您的企业在竞争中脱颖而出，同时解决方案对终端用户而言极其直观且易于上手",
+        val_block1_p2: "灵活契合用户多元需求，无需单独开发全新生产线。仅通过调整基础配置即可覆盖多重细分市场",
+        val_sub_tier: "Tier-1 OEM / ODM 专属技术架构",
+        val_block2_title: "高利润衍生收益流",
+        val_block2_lead: "专属配件生态垄断：打造高粘性、高毛利、具备高复购率的专有硬件生态品类：",
+        val_block2_item1: "<strong>模块化镜头模组：</strong>无需重新设计笔记本主机机身，即可实现高溢价的光学硬件升级",
+        val_block2_item2: "<strong>音频棱镜：</strong>无需妥协的旗舰级声学音响系统，同时开辟全新且高频的高价值使用场景",
+        val_sub_rev: "专有硬件生态衍生体系",
+        sec_partnership: "商务合作",
+        part_sub: "开启战略合作",
+        f_company: "公司名称 *",
+        f_person: "联系人姓名 *",
+        f_email: "电子邮箱 *",
+        f_phone: "直连电话 / 联系电话",
+        btn_connect: "提交合作申请",
+        privacy_disclaimer: '我同意 <a href="Privacy_Policy.pdf" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-black">隐私政策</a> 并同意处理我的个人数据',
+        link_privacy: "隐私政策",
+        copyright: "© {year} Yury Shynkevich. 版权所有",
+        success_msg: "发送成功，我们将在第一时间与您联系"
+      },
+      ru: {
+        nav_innovations: "Инновации",
+        nav_patent: "Патент",
+        nav_value: "Ценность",
+        nav_partnership: "Партнерство",
+        nav_contact: "Связаться",
+        hero_title: "Ноутбуки и периферия нового поколения",
+        hero_badge: "Патентная заявка США # 64/164,532",
+        hero_desc: "Y Book — следующий шаг в эволюции ноутбуков, ставящий функциональность, приватность, гибкость и эргономику во главу угла",
+        hero_cta: "Получить презентацию",
+        sec_innovations: "Инновации",
+        c1_title: "Биометрия на верхнем торце",
+        c1_problem: "Традиционные сканеры отпечатков пальцев на рабочей панели требуют отдельного действия после открытия крышки, замедляя вход в систему",
+        c1_sol1: "<strong>Бесшовный UX:</strong> Сканер отпечатков пальцев расположен на верхнем торце крышки дисплея",
+        c1_sol2: "<strong>Автоматическая аутентификация:</strong> Разблокировка происходит естественно в момент подъема крышки пальцем — к моменту открытия дисплея ОС уже авторизовала пользователя",
+        c1_sol3: "<strong>Умная защита батареи:</strong> Датчик угла наклона обесточивает сканер в закрытом состоянии (0°), исключая ложные срабатывания и разряд аккумулятора в сумке",
+        c2_title: "Приватность экрана и камеры",
+        c2_problem: "Ограничения толщины крышки ухудшают оптику, встроенные модули вынуждают делать «челки» или толстые рамки, шторки царапают матрицу, а внешние камеры теряются",
+        c2_sol1: "<strong>Бескомпромиссная оптика:</strong> Вынос камеры в отдельный модуль снимает лимиты по толщине для крупных сенсоров",
+        c2_sol2: "<strong>Чистый дисплей:</strong> Экран со сверхтонкими симметричными рамками с четырех сторон без вырезов",
+        c2_sol3: "<strong>Скрытая ниша:</strong> Внутренний отсек с механизмом Push-Push в корпусе для безопасного хранения и 100% аппаратной приватности",
+        c3_title: "Оптимизация пространства",
+        c3_problem: "Встроенные динамики и акустические камеры занимают ценное внутреннее пространство ноутбука, обеспечивая лишь среднее качество звука из-за строгих ограничений объема",
+        c3_sol1: "<strong>Высвобождение полезного объема:</strong> Отказ от встроенных динамиков освобождает критический объем корпуса",
+        c3_sol2: "<strong>Энергоблок:</strong> Увеличение емкости батареи на +20-30%",
+        c3_sol3: "<strong>Связь и себестоимость:</strong> Интеграция 5G/eSIM и ощутимое снижение веса и затрат на сборку",
+        c4_title: "Внешний модуль-призма",
+        c4_problem: "Плоская клавиатура утомляет кисти рук, а недостаток клиренса снизу ведет к перегреву процессора, троттлингу и шуму кулеров",
+        c4_sol1: "<strong>Эргономика и охлаждение:</strong> Приподнимает корпус для циркуляции воздуха и снижения нагрузки на шею",
+        c4_sol2: "<strong>Премиальный звук:</strong> Стереодинамики с сабвуфером, разделяемые на 2 беспроводных сателлита",
+        c4_sol3: "<strong>Питание и статус:</strong> Встроенный повербанк двунаправленной зарядки и информационный дисплей уведомлений",
+        label_problem: "Проблема пользователя",
+        label_solution: "Решение",
+        sec_patent: "Патент",
+        inventor_title: "Независимый изобретатель. Профессиональный Product Owner и IT Project Manager",
+        table_inv: "Имя изобретателя",
+        table_jur: "Юрисдикция",
+        table_app_id: "Номер заявки",
+        table_scope: "Объем заявки",
+        table_scope_val: "20 формул структурной системы (4 независимых / 16 зависимых)",
+        click_to_zoom: "Нажмите для просмотра",
+        patent_tap_hint: "Нажмите на документ для просмотра официального подтверждения USPTO в высоком разрешении",
+        sec_value: "Ценность",
+        val_block1_title: "Стратегическое преимущество",
+        val_block1_p1: "Вместо следования трендам вы задаете их сами. Внедрение этих инноваций выгодно отличает компанию от конкурентов, сохраняя технические решения интуитивно понятными и легкими в освоении",
+        val_block1_p2: "Гибкость адаптации устройств под потребности пользователей без разработки новых линеек продукции. Возможность охвата различных сегментов аудитории за счет модификации базовой комплектации ноутбука",
+        val_sub_tier: "Архитектура прямого внедрения Tier-1 OEM / ODM",
+        val_block2_title: "Высокомаржинальные доходы",
+        val_block2_lead: "Монополизированный рынок аксессуаров: Создание закрытых высокомаржинальных категорий фирменных устройств с высокой частотой повторных покупок:",
+        val_block2_item1: "<strong>Модульные капсулы камер:</strong> Высокодоходные оптические апгрейды без изменения конструкции основного шасси ноутбука",
+        val_block2_item2: "<strong>Аудио-призмы:</strong> Первоклассная акустическая система без компромиссов, формирующая новые востребованные сценарии использования",
+        val_sub_rev: "Экосистема фирменного аппаратного обеспечения",
+        sec_partnership: "Партнерство",
+        part_sub: "Установить стратегическое партнерство",
+        f_company: "Название компании *",
+        f_person: "Имя контактного лица *",
+        f_email: "Электронная почта *",
+        f_phone: "Прямой контактный номер",
+        btn_connect: "Отправить запрос",
+        privacy_disclaimer: 'Я принимаю условия <a href="Privacy_Policy.pdf" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-black">Политики конфиденциальности</a> и даю согласие на обработку персональных данных',
+        link_privacy: "Политика конфиденциальности",
+        copyright: "© {year} Yury Shynkevich. Все права защищены",
+        success_msg: "Отправлено. Мы свяжемся с вами в ближайшее время"
+      }
+    };
+
+    let currentLanguage = 'en';
+
+    function changeLanguage(lang) {
+      if (!i18nData[lang]) return;
+      currentLanguage = lang;
+      document.documentElement.lang = lang;
+      const data = i18nData[lang];
+      const year = new Date().getFullYear();
+
+      // Synchronize both dropdowns
+      const desktopSwitcher = document.getElementById('langSwitcher');
+      const mobileSwitcher = document.getElementById('mobileLangSwitcher');
+      if (desktopSwitcher) desktopSwitcher.value = lang;
+      if (mobileSwitcher) mobileSwitcher.value = lang;
+
+      // Update text with data-i18n
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (data[key]) {
+          el.innerHTML = data[key];
+        }
+      });
+
+      // Update copyright
+      const copyrightEl = document.getElementById('footerCopyright');
+      if (copyrightEl && data.copyright) {
+        copyrightEl.textContent = data.copyright.replace('{year}', year);
+      }
+
+      // Update privacy label
+      const privacyLabel = document.getElementById('privacyLabel');
+      if (privacyLabel && data.privacy_disclaimer) {
+        privacyLabel.innerHTML = data.privacy_disclaimer;
+      }
+
+      // Update input placeholders
+      const companyInput = document.querySelector('input[name="company"]');
+      const nameInput = document.querySelector('input[name="name"]');
+      if (companyInput) {
+        companyInput.placeholder = lang === 'zh' ? '例如：计算科技有限公司' : (lang === 'ru' ? 'например, Acme Hardware Corp' : 'e.g. Acme Hardware Corp');
+      }
+      if (nameInput) {
+        nameInput.placeholder = lang === 'zh' ? '例如：张伟' : (lang === 'ru' ? 'например, Алексей Смирнов' : 'e.g. Alex Henderson');
+      }
+
+      localStorage.setItem('ybook_preferred_lang', lang);
+    }
+
+    // Mobile Navigation Controls
+    function openMobileMenu() {
+      const overlay = document.getElementById('mobileMenuOverlay');
+      const drawer = document.getElementById('mobileMenuDrawer');
+      overlay.classList.remove('opacity-0', 'pointer-events-none');
+      drawer.classList.remove('translate-x-full');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeMobileMenu() {
+      const overlay = document.getElementById('mobileMenuOverlay');
+      const drawer = document.getElementById('mobileMenuDrawer');
+      overlay.classList.add('opacity-0', 'pointer-events-none');
+      drawer.classList.add('translate-x-full');
+      document.body.style.overflow = '';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('ybook_preferred_lang') || 'en';
+      changeLanguage(savedLang);
+
+      // Mobile Menu Listeners
+      const openBtn = document.getElementById('openMobileMenuBtn');
+      const closeBtn = document.getElementById('closeMobileMenuBtn');
+      const overlay = document.getElementById('mobileMenuOverlay');
+
+      if (openBtn) openBtn.addEventListener('click', openMobileMenu);
+      if (closeBtn) closeBtn.addEventListener('click', closeMobileMenu);
+      
+      if (overlay) {
+        overlay.addEventListener('click', (e) => {
+          if (e.target === overlay) closeMobileMenu();
+        });
+      }
+
+      document.querySelectorAll('.mobile-nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+          closeMobileMenu();
+        });
+      });
+
+      // Privacy Checkbox Gate
+      const consentBox = document.getElementById('privacyConsent');
+      const submitBtn = document.getElementById('submitBtn');
+
+      consentBox.addEventListener('change', () => {
+        submitBtn.disabled = !consentBox.checked;
+      });
+
+      // Formspree Submission & Zero-Popup Inline Replacement
+      const form = document.getElementById('b2bForm');
+      const formWrapper = document.getElementById('partnership-form-wrapper');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!form.checkValidity() || !consentBox.checked) return;
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = '...';
+
+        try {
+          const formData = new FormData(form);
+          await fetch(form.action, {
+            method: 'POST',
+            body: formData,
+            headers: { 'Accept': 'application/json' }
+          });
+          renderSuccessState();
+        } catch (error) {
+          renderSuccessState();
+        }
+      });
+
+      // 3. Success state: email mention strictly removed
+      function renderSuccessState() {
+        formWrapper.style.opacity = '0';
+
+        setTimeout(() => {
+          const successText = i18nData[currentLanguage].success_msg;
+          formWrapper.innerHTML = `
+            <div class="py-12 px-4 text-center transition-opacity duration-300">
+              <div class="w-14 h-14 mx-auto rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-800 flex items-center justify-center mb-5">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path></svg>
+              </div>
+              <p class="font-sans font-bold text-lg uppercase tracking-wide text-black">${successText}</p>
+            </div>
+          `;
+          formWrapper.style.opacity = '1';
+        }, 350);
+      }
+    });
+
+    // Patent Modal Handlers
+    const modal = document.getElementById('patentModal');
+
+    function openPatentModal() {
+      modal.classList.remove('opacity-0', 'pointer-events-none');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePatentModal() {
+      modal.classList.add('opacity-0', 'pointer-events-none');
+      document.body.style.overflow = '';
+    }
+
+    function handleModalBackdropClick(e) {
+      if (e.target === modal) closePatentModal();
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (!modal.classList.contains('pointer-events-none')) closePatentModal();
+        closeMobileMenu();
+      }
+    });
+  </script>
+</body>
+</html>

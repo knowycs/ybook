@@ -345,19 +345,21 @@
         </div>
       </div>
 
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:items-stretch">
         
-        <div class="lg:col-span-7 space-y-8">
+        <!-- Left Column: Height matched to right column -->
+        <div class="lg:col-span-7 flex flex-col justify-between space-y-6 lg:space-y-0">
           
-          <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 p-6 rounded-2xl border border-zinc-200 bg-zinc-50/50">
-            <img src="Yury Shynkevich.avif" alt="Yury Shynkevich" class="w-24 h-24 sm:w-28 sm:h-28 rounded-full object-cover grayscale border-2 border-zinc-300 shadow-sm flex-shrink-0">
-            <div class="space-y-2 text-center sm:text-left">
+          <!-- Inventor Card: Photo enlarged by ~20% and text break applied -->
+          <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 p-6 lg:p-7 rounded-2xl border border-zinc-200 bg-zinc-50/50">
+            <img src="Yury Shynkevich.avif" alt="Yury Shynkevich" class="w-28 h-28 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full object-cover grayscale border-2 border-zinc-300 shadow-sm flex-shrink-0">
+            <div class="space-y-3 text-center sm:text-left">
               <h3 class="font-sans font-bold text-xl uppercase tracking-wide text-black">Yury Shynkevich</h3>
-              <p class="font-montserrat text-sm text-zinc-600 leading-snug" data-i18n="inventor_title">
-                Independent Inventor. Professional Product Owner & IT Project Manager
+              <p class="font-montserrat text-sm text-zinc-600 leading-relaxed" data-i18n="inventor_title">
+                Independent Inventor.<br class="hidden sm:inline">Professional Product Owner & IT Project Manager
               </p>
               
-              <div class="flex items-center justify-center sm:justify-start gap-4 pt-2">
+              <div class="flex items-center justify-center sm:justify-start gap-4 pt-1">
                 <a href="https://www.linkedin.com/in/yury-shynkevich/" target="_blank" rel="noopener noreferrer" class="w-10 h-10 rounded-full flex items-center justify-center bg-blue-600/20 hover:bg-blue-600/35 text-black transition-colors" aria-label="LinkedIn">
                   <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                 </a>
@@ -368,21 +370,22 @@
             </div>
           </div>
 
+          <!-- Telemetry Table -->
           <div class="overflow-hidden border border-zinc-200 rounded-2xl bg-white shadow-sm font-mono text-xs">
             <div class="divide-y divide-zinc-200">
-              <div class="grid grid-cols-1 sm:grid-cols-3 p-4 bg-zinc-50">
+              <div class="grid grid-cols-1 sm:grid-cols-3 p-4 lg:py-5 lg:px-5 bg-zinc-50">
                 <span class="text-zinc-500 uppercase font-semibold" data-i18n="table_inv">Inventor Name</span>
                 <span class="sm:col-span-2 text-black font-medium mt-1 sm:mt-0">Yury Shynkevich</span>
               </div>
-              <div class="grid grid-cols-1 sm:grid-cols-3 p-4">
+              <div class="grid grid-cols-1 sm:grid-cols-3 p-4 lg:py-5 lg:px-5">
                 <span class="text-zinc-500 uppercase font-semibold" data-i18n="table_jur">Jurisdiction</span>
                 <span class="sm:col-span-2 text-black font-medium mt-1 sm:mt-0">United States (USPTO)</span>
               </div>
-              <div class="grid grid-cols-1 sm:grid-cols-3 p-4 bg-zinc-50">
+              <div class="grid grid-cols-1 sm:grid-cols-3 p-4 lg:py-5 lg:px-5 bg-zinc-50">
                 <span class="text-zinc-500 uppercase font-semibold" data-i18n="table_app_id">Application ID</span>
                 <span class="sm:col-span-2 text-black font-semibold mt-1 sm:mt-0 text-emerald-700">US PPA # 64/164,532</span>
               </div>
-              <div class="grid grid-cols-1 sm:grid-cols-3 p-4">
+              <div class="grid grid-cols-1 sm:grid-cols-3 p-4 lg:py-5 lg:px-5">
                 <span class="text-zinc-500 uppercase font-semibold" data-i18n="table_scope">Application Scope</span>
                 <span class="sm:col-span-2 text-black font-medium mt-1 sm:mt-0" data-i18n="table_scope_val">20 Structural System Claims (4 Independent / 16 Dependent Claims)</span>
               </div>
@@ -391,14 +394,19 @@
 
         </div>
 
-        <div class="lg:col-span-5 flex flex-col items-center">
-          <div class="relative group cursor-pointer" onclick="openPatentModal()">
-            <img src="417-1.avif" alt="USPTO Electronic Acknowledgement Receipt" class="w-full max-w-sm rounded-xl border border-zinc-300 shadow-md transition-transform duration-200 group-hover:scale-[1.01]">
-            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center">
-              <span class="rounded-full px-4 py-2 bg-white text-black font-sans font-bold text-xs uppercase tracking-wider" data-i18n="click_to_zoom">Click to Inspect</span>
+        <!-- Right Column: Document and Caption strictly bounded to same width -->
+        <div class="lg:col-span-5 flex flex-col items-center justify-between">
+          <div class="w-full max-w-sm flex flex-col items-center">
+            <div class="relative group cursor-pointer w-full" onclick="openPatentModal()">
+              <img src="Ассет 417-1.avif" alt="USPTO Electronic Acknowledgement Receipt" class="w-full rounded-xl border border-zinc-300 shadow-md transition-transform duration-200 group-hover:scale-[1.01]">
+              <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center">
+                <span class="rounded-full px-4 py-2 bg-white text-black font-sans font-bold text-xs uppercase tracking-wider" data-i18n="click_to_zoom">Click to Inspect</span>
+              </div>
             </div>
+            <p class="w-full font-mono text-xs text-zinc-500 mt-3 text-center leading-relaxed" data-i18n="patent_tap_hint">
+              Click receipt to view full USPTO acknowledgement in high resolution
+            </p>
           </div>
-          <span class="font-mono text-xs text-zinc-500 mt-3" data-i18n="patent_tap_hint">Click receipt to view full USPTO acknowledgement in high resolution</span>
         </div>
 
       </div>
@@ -637,7 +645,7 @@
         label_problem: "User Problem",
         label_solution: "Solution",
         sec_patent: "Patent",
-        inventor_title: "Independent Inventor. Professional Product Owner & IT Project Manager",
+        inventor_title: "Independent Inventor.<br class=\"hidden sm:inline\">Professional Product Owner & IT Project Manager",
         table_inv: "Inventor Name",
         table_jur: "Jurisdiction",
         table_app_id: "Application ID",
@@ -701,7 +709,7 @@
         label_problem: "用户痛点",
         label_solution: "解决方案",
         sec_patent: "专利信息",
-        inventor_title: "独立发明人。专业产品负责人兼 IT 项目经理",
+        inventor_title: "独立发明人。<br class=\"hidden sm:inline\">专业产品负责人兼 IT 项目经理",
         table_inv: "发明人",
         table_jur: "司法管辖区",
         table_app_id: "申请编号",
@@ -765,7 +773,7 @@
         label_problem: "Проблема пользователя",
         label_solution: "Решение",
         sec_patent: "Патент",
-        inventor_title: "Независимый изобретатель. Профессиональный Product Owner и IT Project Manager",
+        inventor_title: "Независимый изобретатель.<br class=\"hidden sm:inline\">Профессиональный Product Owner и IT Project Manager",
         table_inv: "Имя изобретателя",
         table_jur: "Юрисдикция",
         table_app_id: "Номер заявки",

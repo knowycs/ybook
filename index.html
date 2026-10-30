@@ -530,9 +530,9 @@
               </button>
             </div>
 
-            <div class="pt-2 flex items-start gap-3">
-              <input type="checkbox" id="privacyConsent" class="mt-[3px] w-5 h-5 rounded border-zinc-300 text-black focus:ring-black cursor-pointer">
-              <label for="privacyConsent" class="font-montserrat text-sm text-zinc-700 cursor-pointer select-none leading-relaxed" id="privacyLabel">
+          <div class="pt-2 flex items-start gap-3">
+              <input type="checkbox" id="formAgreement" class="mt-1 w-5 h-5 shrink-0 rounded border-zinc-300 accent-black text-black focus:ring-black cursor-pointer">
+              <label for="formAgreement" class="font-montserrat text-sm text-zinc-700 cursor-pointer select-none leading-relaxed" id="agreementText">
                 I agree to the <a href="Privacy Policy.pdf" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-black">Privacy Policy</a> and consent to the processing of my data
               </label>
             </div>
@@ -826,8 +826,8 @@
         copyrightEl.textContent = data.copyright.replace('{year}', year);
       }
 
-      // Update privacy label
-      const privacyLabel = document.getElementById('privacyLabel');
+     // Update privacy label
+      const privacyLabel = document.getElementById('agreementText') || document.getElementById('privacyLabel');
       if (privacyLabel && data.privacy_disclaimer) {
         privacyLabel.innerHTML = data.privacy_disclaimer;
       }
@@ -887,12 +887,14 @@
       });
 
       // Privacy Checkbox Gate
-      const consentBox = document.getElementById('privacyConsent');
+      const consentBox = document.getElementById('formAgreement') || document.getElementById('privacyConsent');
       const submitBtn = document.getElementById('submitBtn');
 
-      consentBox.addEventListener('change', () => {
-        submitBtn.disabled = !consentBox.checked;
-      });
+      if (consentBox) {
+        consentBox.addEventListener('change', () => {
+          submitBtn.disabled = !consentBox.checked;
+        });
+      }
 
       // Formspree Submission & Zero-Popup Inline Replacement
       const form = document.getElementById('b2bForm');

@@ -960,6 +960,15 @@
         closeMobileMenu();
       }
     });
+    // Reset to top without hash and with full cross-browser support
+    function scrollToTop(e) {
+      if (e) e.preventDefault();
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      document.documentElement.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+      if (window.location.hash) {
+        history.pushState(null, '', window.location.pathname);
+      }
+    }
   </script>
 </body>
 </html>

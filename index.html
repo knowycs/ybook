@@ -120,7 +120,7 @@
 
   <!-- ================= 6.2 - 6.4. MOBILE NAVIGATION DRAWER & OVERLAY ================= -->
   <div id="mobileMenuOverlay" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
-    <div id="mobileMenuDrawer" class="fixed top-0 right-0 w-full sm:max-w-xs h-full bg-white text-black shadow-2xl p-6 flex flex-col justify-between transform translate-x-full transition-transform duration-300 ease-in-out">
+    <div id="mobileMenuDrawer" class="fixed top-0 right-0 w-full sm:max-w-xs h-full bg-white text-black shadow-2xl p-6 flex flex-col transform translate-x-full transition-transform duration-300 ease-in-out">
       
       <!-- Top Row: Logo + Close "X" Button -->
       <div class="flex items-center justify-between pb-4 border-b border-zinc-200">
@@ -133,18 +133,18 @@
         </button>
       </div>
 
-      <!-- 6.3.1. Nav Nodes Vertical Stack -->
-      <nav class="flex flex-col space-y-6 my-auto font-sans text-lg uppercase font-bold tracking-wider py-8">
+      <!-- 6.3.1. Nav Nodes Vertical Stack: Aligned right below the top bar -->
+      <nav class="flex flex-col space-y-6 pt-6 font-sans text-lg uppercase font-bold tracking-wider">
         <a href="#innovations" class="mobile-nav-link hover:text-blue-600 transition-colors" data-i18n="nav_innovations">Innovations</a>
         <a href="#patent" class="mobile-nav-link hover:text-amber-600 transition-colors" data-i18n="nav_patent">Patent</a>
         <a href="#value" class="mobile-nav-link hover:text-emerald-600 transition-colors" data-i18n="nav_value">Value</a>
         <a href="#partnership" class="mobile-nav-link hover:text-orange-600 transition-colors" data-i18n="nav_partnership">Partnership</a>
       </nav>
 
-      <!-- 6.3.2 & 6.3.3. Mobile Controls: Language & Contact CTA -->
-      <div class="border-t border-zinc-200 pt-6 space-y-5">
+      <!-- 6.3.2 & 6.3.3. Mobile Controls: Dynamic Language Label & Contact CTA pinned to bottom -->
+      <div class="mt-auto border-t border-zinc-200 pt-6 space-y-5">
         <div class="flex items-center justify-between">
-          <span class="font-mono text-xs uppercase text-zinc-500 font-semibold">Language</span>
+          <span class="font-mono text-xs uppercase text-zinc-500 font-semibold" data-i18n="mobile_lang_label">Language</span>
           <div class="relative">
             <select id="mobileLangSwitcher" onchange="changeLanguage(this.value)" class="appearance-none bg-zinc-100 hover:bg-zinc-200 border border-zinc-300 font-montserrat text-xs uppercase px-4 py-2 pr-8 rounded-full cursor-pointer focus:outline-none focus:ring-1 focus:ring-black transition-colors text-center" style="text-align-last: center;">
               <option value="en">EN</option>
@@ -617,6 +617,7 @@
         nav_value: "Value",
         nav_partnership: "Partnership",
         nav_contact: "Contact",
+        mobile_lang_label: "Language",
         hero_title: "New generation laptops and peripherals",
         hero_badge: "US Patent Pending # 64/164,532",
         hero_desc: "Y Book is the next step in laptop evolution, putting functionality, privacy, flexibility, and ergonomics at the very forefront",
@@ -681,6 +682,7 @@
         nav_value: "商业价值",
         nav_partnership: "商务合作",
         nav_contact: "联系我们",
+        mobile_lang_label: "语言",
         hero_title: "新一代笔记本电脑与外设生态",
         hero_badge: "美国专利申请中 # 64/164,532",
         hero_desc: "Y Book 是笔记本电脑进化的关键一步，将功能性、隐私安全、扩展灵活性以及人体工程学置于核心",
@@ -745,6 +747,7 @@
         nav_value: "Ценность",
         nav_partnership: "Партнерство",
         nav_contact: "Связаться",
+        mobile_lang_label: "Язык",
         hero_title: "Ноутбуки и периферия нового поколения",
         hero_badge: "Патентная заявка США # 64/164,532",
         hero_desc: "Y Book — следующий шаг в эволюции ноутбуков, ставящий функциональность, приватность, гибкость и эргономику во главу угла",

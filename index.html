@@ -71,7 +71,7 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
       
       <!-- Logo: Hard Reset Button to Top (Strict Camel Case) -->
-      <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="flex items-center gap-3 transition-opacity hover:opacity-80" aria-label="Y Book Hard Reset">
+      <a href="./" onclick="scrollToTop(event)" class="flex items-center gap-3 transition-opacity hover:opacity-80" aria-label="Y Book Hard Reset">
         <img src="Y Book.svg" alt="Y Book" class="h-8 w-auto object-contain" onerror="this.onerror=null; this.classList.add('hidden'); document.getElementById('logo-fallback').classList.remove('hidden');">
         <div id="logo-fallback" class="hidden bg-black text-white px-3 py-1 font-sans font-bold tracking-widest text-sm">Y Book</div>
       </a>
@@ -551,8 +551,8 @@
         
         <!-- Left: Logo (Camel Case) -->
         <div class="flex items-center">
-          <a href="#" onclick="window.scrollTo({top: 0, behavior: 'smooth'}); return false;" class="flex items-center gap-3 transition-opacity hover:opacity-80" aria-label="Y Book Reset">
-            <img src="Y Book.svg" alt="Y Book" class="h-7 w-auto object-contain brightness-0 invert" onerror="this.onerror=null; this.classList.add('hidden'); document.getElementById('footer-logo-fallback').classList.remove('hidden');">
+          <a href="./" onclick="scrollToTop(event)" class="flex items-center gap-3 transition-opacity hover:opacity-80" aria-label="Y Book Reset">
+            <img src="Y Book.svg" alt="Y Book" class="h-7 w-auto object-contain" onerror="this.onerror=null; this.classList.add('hidden'); document.getElementById('footer-logo-fallback').classList.remove('hidden');">
             <div id="footer-logo-fallback" class="hidden text-white font-sans font-bold tracking-widest text-sm">Y Book</div>
           </a>
         </div>

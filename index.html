@@ -345,14 +345,15 @@
         </div>
       </div>
 
+      <!-- Grid with strict desktop baseline stretch -->
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:items-stretch">
         
-        <!-- Left Column: Height matched to right column -->
+        <!-- Left Column: Top aligns with document, bottom aligns exactly with red line -->
         <div class="lg:col-span-7 flex flex-col justify-between space-y-6 lg:space-y-0">
           
-          <!-- Inventor Card: Photo enlarged by ~20% and text break applied -->
-          <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 p-6 lg:p-7 rounded-2xl border border-zinc-200 bg-zinc-50/50">
-            <img src="Yury Shynkevich.avif" alt="Yury Shynkevich" class="w-28 h-28 sm:w-32 sm:h-32 lg:w-36 lg:h-36 rounded-full object-cover grayscale border-2 border-zinc-300 shadow-sm flex-shrink-0">
+          <!-- Inventor Card -->
+          <div class="flex flex-col sm:flex-row items-center sm:items-start gap-6 p-6 lg:p-6 rounded-2xl border border-zinc-200 bg-zinc-50/50">
+            <img src="Yury Shynkevich.avif" alt="Yury Shynkevich" class="w-28 h-28 sm:w-32 sm:h-32 lg:w-[130px] lg:h-[130px] rounded-full object-cover grayscale border-2 border-zinc-300 shadow-sm flex-shrink-0">
             <div class="space-y-3 text-center sm:text-left">
               <h3 class="font-sans font-bold text-xl uppercase tracking-wide text-black">Yury Shynkevich</h3>
               <p class="font-montserrat text-sm text-zinc-600 leading-relaxed" data-i18n="inventor_title">
@@ -370,22 +371,22 @@
             </div>
           </div>
 
-          <!-- Telemetry Table -->
+          <!-- Telemetry Table: Bottom border terminates exactly at the red line -->
           <div class="overflow-hidden border border-zinc-200 rounded-2xl bg-white shadow-sm font-mono text-xs">
             <div class="divide-y divide-zinc-200">
-              <div class="grid grid-cols-1 sm:grid-cols-3 p-4 lg:py-5 lg:px-5 bg-zinc-50">
+              <div class="grid grid-cols-1 sm:grid-cols-3 p-4 lg:py-4 lg:px-5 bg-zinc-50">
                 <span class="text-zinc-500 uppercase font-semibold" data-i18n="table_inv">Inventor Name</span>
                 <span class="sm:col-span-2 text-black font-medium mt-1 sm:mt-0">Yury Shynkevich</span>
               </div>
-              <div class="grid grid-cols-1 sm:grid-cols-3 p-4 lg:py-5 lg:px-5">
+              <div class="grid grid-cols-1 sm:grid-cols-3 p-4 lg:py-4 lg:px-5">
                 <span class="text-zinc-500 uppercase font-semibold" data-i18n="table_jur">Jurisdiction</span>
                 <span class="sm:col-span-2 text-black font-medium mt-1 sm:mt-0">United States (USPTO)</span>
               </div>
-              <div class="grid grid-cols-1 sm:grid-cols-3 p-4 lg:py-5 lg:px-5 bg-zinc-50">
+              <div class="grid grid-cols-1 sm:grid-cols-3 p-4 lg:py-4 lg:px-5 bg-zinc-50">
                 <span class="text-zinc-500 uppercase font-semibold" data-i18n="table_app_id">Application ID</span>
                 <span class="sm:col-span-2 text-black font-semibold mt-1 sm:mt-0 text-emerald-700">US PPA # 64/164,532</span>
               </div>
-              <div class="grid grid-cols-1 sm:grid-cols-3 p-4 lg:py-5 lg:px-5">
+              <div class="grid grid-cols-1 sm:grid-cols-3 p-4 lg:py-4 lg:px-5">
                 <span class="text-zinc-500 uppercase font-semibold" data-i18n="table_scope">Application Scope</span>
                 <span class="sm:col-span-2 text-black font-medium mt-1 sm:mt-0" data-i18n="table_scope_val">20 Structural System Claims (4 Independent / 16 Dependent Claims)</span>
               </div>
@@ -394,16 +395,17 @@
 
         </div>
 
-        <!-- Right Column: Document and Caption strictly bounded to same width -->
-        <div class="lg:col-span-5 flex flex-col items-center justify-between">
+        <!-- Right Column: Document bounds cleanly to the red line -->
+        <div class="lg:col-span-5 flex flex-col items-center lg:items-end justify-start">
           <div class="w-full max-w-sm flex flex-col items-center">
             <div class="relative group cursor-pointer w-full" onclick="openPatentModal()">
-              <img src="417-1.avif" alt="USPTO Electronic Acknowledgement Receipt" class="w-full rounded-xl border border-zinc-300 shadow-md transition-transform duration-200 group-hover:scale-[1.01]">
+              <img src="Ассет 417-1.avif" alt="USPTO Electronic Acknowledgement Receipt" class="w-full rounded-xl border border-zinc-300 shadow-md transition-transform duration-200 group-hover:scale-[1.01]">
               <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity rounded-xl flex items-center justify-center">
                 <span class="rounded-full px-4 py-2 bg-white text-black font-sans font-bold text-xs uppercase tracking-wider" data-i18n="click_to_zoom">Click to Inspect</span>
               </div>
             </div>
-            <p class="w-full font-mono text-xs text-zinc-500 mt-3 text-center leading-relaxed" data-i18n="patent_tap_hint">
+            <!-- Caption is hidden on desktop (lg:hidden) to keep the baseline flush, but preserved for mobile -->
+            <p class="w-full font-mono text-xs text-zinc-500 mt-3 text-center leading-relaxed lg:hidden" data-i18n="patent_tap_hint">
               Click receipt to view full USPTO acknowledgement in high resolution
             </p>
           </div>

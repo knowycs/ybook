@@ -6,10 +6,10 @@
   <title>Y Book — Next-Gen Modular Laptop Architecture</title>
   <meta name="description" content="US Patent Pending # 64/164,532. High-performance modular computer system architecture with top-edge interface and multifunctional accessories">
   
-  <!-- 1. FAVICON: White letters YB on black background -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23000000'/%3E%3Ctext x='50%25' y='55%25' text-anchor='middle' dominant-baseline='middle' font-family='Inter, sans-serif' font-weight='900' font-size='32' fill='%23FFFFFF'%3EYB%3C/text%3E%3C/svg%3E">
-  <link rel="alternate icon" type="image/svg+xml" href="YB (black).svg">
-  <link rel="alternate icon" type="image/webp" href="YB (black).webp">
+  <!-- Favicon: Vector SVG (light / dark system themes supported) -->
+  <link rel="icon" type="image/svg+xml" href="YB%20(black).svg" media="(prefers-color-scheme: light)">
+  <link rel="icon" type="image/svg+xml" href="YB%20(white).svg" media="(prefers-color-scheme: dark)">
+  <link rel="alternate icon" type="image/svg+xml" href="YB%20(black).svg">
 
   <!-- Google Fonts: Inter (UI/Headers), Montserrat (Body), JetBrains Mono (Telemetry) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -72,7 +72,7 @@
       
       <!-- Logo: Hard Reset Button to Top (Strict Camel Case) -->
       <a href="./" onclick="scrollToTop(event)" class="flex items-center gap-3 transition-opacity hover:opacity-80" aria-label="Y Book Hard Reset">
-        <img src="Y Book.svg" alt="Y Book" class="h-8 w-auto object-contain" onerror="this.onerror=null; this.classList.add('hidden'); document.getElementById('logo-fallback').classList.remove('hidden');">
+        <img src="Y%20Book.svg" alt="Y Book" class="h-8 w-auto object-contain" onerror="this.onerror=null; this.classList.add('hidden'); document.getElementById('logo-fallback').classList.remove('hidden');">
         <div id="logo-fallback" class="hidden bg-black text-white px-3 py-1 font-sans font-bold tracking-widest text-sm">Y Book</div>
       </a>
 
@@ -124,7 +124,8 @@
       
       <!-- Top Row: Logo + Close "X" Button -->
       <div class="flex items-center justify-between pb-4 border-b border-zinc-200">
-        <span class="font-sans font-bold text-lg tracking-wide">Y Book</span>
+        <img src="Y%20Book.svg" alt="Y Book" class="h-6 w-auto object-contain" onerror="this.onerror=null; this.classList.add('hidden'); document.getElementById('mob-logo-fallback').classList.remove('hidden');">
+        <div id="mob-logo-fallback" class="hidden bg-black text-white px-2 py-0.5 font-sans font-bold tracking-widest text-xs">Y Book</div>
         <button id="closeMobileMenuBtn" class="p-2 text-zinc-500 hover:text-black focus:outline-none" aria-label="Close menu">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
             <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -543,7 +544,7 @@
           <div class="pt-2 flex items-start gap-3">
               <input type="checkbox" id="formAgreement" class="mt-1 w-5 h-5 shrink-0 rounded border-zinc-300 accent-black text-black focus:ring-black cursor-pointer">
               <label for="formAgreement" class="font-montserrat text-sm text-zinc-700 cursor-pointer select-none leading-relaxed" id="agreementText">
-                I agree to the <a href="Privacy Policy.pdf" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-black">Privacy Policy</a> and consent to the processing of my data
+                I agree to the <a href="Privacy%20Policy.pdf" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-black">Privacy Policy</a> and consent to the processing of my data
               </label>
             </div>
 
@@ -562,7 +563,7 @@
         <!-- Left: Logo (Camel Case) -->
         <div class="flex items-center">
           <a href="./" onclick="scrollToTop(event)" class="flex items-center gap-3 transition-opacity hover:opacity-80" aria-label="Y Book Reset">
-            <img src="Y Book.svg" alt="Y Book" class="h-7 w-auto object-contain" onerror="this.onerror=null; this.classList.add('hidden'); document.getElementById('footer-logo-fallback').classList.remove('hidden');">
+            <img src="Y%20Book.svg" alt="Y Book" class="h-7 w-auto object-contain" onerror="this.onerror=null; this.classList.add('hidden'); document.getElementById('footer-logo-fallback').classList.remove('hidden');">
             <div id="footer-logo-fallback" class="hidden text-white font-sans font-bold tracking-widest text-sm">Y Book</div>
           </a>
         </div>
@@ -579,7 +580,7 @@
             <span id="footerCopyright">© 2026 Yury Shynkevich. All rights reserved</span>
           </div>
           <div>
-            <a href="Privacy Policy.pdf" target="_blank" rel="noopener noreferrer" class="font-mono text-xs text-white/70 hover:text-white underline underline-offset-4 transition-colors" data-i18n="link_privacy">
+            <a href="Privacy%20Policy.pdf" target="_blank" rel="noopener noreferrer" class="font-mono text-xs text-white/70 hover:text-white underline underline-offset-4 transition-colors" data-i18n="link_privacy">
               Privacy Policy
             </a>
           </div>
@@ -673,7 +674,7 @@
         f_email: "Email Address *",
         f_phone: "Direct Contact Number",
         btn_connect: "Connect",
-        privacy_disclaimer: 'I agree to the <a href="Privacy Policy.pdf" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-black">Privacy Policy</a> and consent to the processing of my data',
+        privacy_disclaimer: 'I agree to the <a href="Privacy%20Policy.pdf" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-black">Privacy Policy</a> and consent to the processing of my data',
         link_privacy: "Privacy Policy",
         copyright: "© {year} Yury Shynkevich. All rights reserved",
         success_msg: "Sent. We will get back to you shortly"
@@ -738,7 +739,7 @@
         f_email: "电子邮箱 *",
         f_phone: "直连电话 / 联系电话",
         btn_connect: "提交合作申请",
-        privacy_disclaimer: '我同意 <a href="Privacy Policy.pdf" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-black">隐私政策</a> 并同意处理我的个人数据',
+        privacy_disclaimer: '我同意 <a href="Privacy%20Policy.pdf" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-black">隐私政策</a> 并同意处理我的个人数据',
         link_privacy: "隐私政策",
         copyright: "© {year} Yury Shynkevich. 版权所有",
         success_msg: "发送成功，我们将在第一时间与您联系"
@@ -803,7 +804,7 @@
         f_email: "Электронная почта *",
         f_phone: "Прямой контактный номер",
         btn_connect: "Отправить запрос",
-        privacy_disclaimer: 'Я принимаю условия <a href="Privacy Policy.pdf" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-black">Политики конфиденциальности</a> и даю согласие на обработку персональных данных',
+        privacy_disclaimer: 'Я принимаю условия <a href="Privacy%20Policy.pdf" target="_blank" rel="noopener noreferrer" class="underline underline-offset-2 hover:text-black">Политики конфиденциальности</a> и даю согласие на обработку персональных данных',
         link_privacy: "Политика конфиденциальности",
         copyright: "© {year} Yury Shynkevich. Все права защищены",
         success_msg: "Отправлено. Мы свяжемся с вами в ближайшее время"

@@ -1,0 +1,16 @@
+# Allow all search engines and AI agents to index the Y Book showcase
+User-agent: *
+Allow: /
+
+# Explicitly welcome AI research crawlers for corporate scouting
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Sitemap reference (target URL)
+Sitemap: https://knowycs.github.io/ybook/sitemap.xml

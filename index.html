@@ -122,10 +122,12 @@
   <div id="mobileMenuOverlay" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-opacity duration-300">
     <div id="mobileMenuDrawer" class="fixed top-0 right-0 w-full sm:max-w-xs h-full bg-white text-black shadow-2xl p-6 flex flex-col transform translate-x-full transition-transform duration-300 ease-in-out">
       
-      <!-- Top Row: Logo + Close "X" Button -->
+      <!-- Top Row: Logo (Identical to Header: h-8, Clickable & Reset to Top) + Close "X" Button -->
       <div class="flex items-center justify-between pb-4 border-b border-zinc-200">
-        <img src="Y%20Book.svg" alt="Y Book" class="h-6 w-auto object-contain" onerror="this.onerror=null; this.classList.add('hidden'); document.getElementById('mob-logo-fallback').classList.remove('hidden');">
-        <div id="mob-logo-fallback" class="hidden bg-black text-white px-2 py-0.5 font-sans font-bold tracking-widest text-xs">Y Book</div>
+        <a href="./" onclick="closeMobileMenu(); scrollToTop(event)" class="flex items-center gap-3 transition-opacity hover:opacity-80" aria-label="Y Book Hard Reset">
+          <img src="Y%20Book.svg" alt="Y Book" width="120" height="32" class="h-8 w-auto object-contain" onerror="this.onerror=null; this.classList.add('hidden'); document.getElementById('mob-logo-fallback').classList.remove('hidden');">
+          <div id="mob-logo-fallback" class="hidden bg-black text-white px-3 py-1 font-sans font-bold tracking-widest text-sm">Y Book</div>
+        </a>
         <button id="closeMobileMenuBtn" class="p-2 text-zinc-500 hover:text-black focus:outline-none" aria-label="Close menu">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
             <line x1="18" y1="6" x2="6" y2="18"></line>
